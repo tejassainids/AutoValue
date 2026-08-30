@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import joblib
 from pydantic import BaseModel
 import pandas as pd
+from pathlib import Path
 
 app=FastAPI()
 
@@ -14,9 +15,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model = joblib.load("src/final_model.pkl")
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-df = pd.read_csv("data/car-resale-dataset-india.csv")
+model = joblib.load(BASE_DIR / "src" / "final_model.pkl")
+
+df = pd.read_csv(BASE_DIR / "data" / "car-resale-dataset-india.csv")
 
 @app.get("/options")
 def get_options():
