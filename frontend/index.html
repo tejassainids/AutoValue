@@ -1,1110 +1,949 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>AutoValue - Premium Car Valuation</title>
 
-<title>AutoValue - Premium Car Valuation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
 
-<script>
-    tailwind.config = {
-        darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#101415",
+                        "primary": "#4edea3",
+                        "primary-container": "#10b981",
+                        "background": "#101415",
+                        "outline": "#86948a",
+                        "outline-variant": "#3c4a42",
+                        "on-surface": "#e0e3e5",
+                        "on-surface-variant": "#bbcabf",
+                        "surface-container-lowest": "#0b0f10",
+                        "surface-container-low": "#191c1e",
+                        "surface-container": "#1d2022",
+                        "surface-container-high": "#272a2c",
+                        "surface-container-highest": "#323537"
+                    },
 
-        theme: {
-            extend: {
-                colors: {
-                    "surface": "#101415",
-                    "primary": "#4edea3",
-                    "primary-container": "#10b981",
-                    "background": "#101415",
-                    "outline": "#86948a",
-                    "outline-variant": "#3c4a42",
-                    "on-surface": "#e0e3e5",
-                    "on-surface-variant": "#bbcabf",
-                    "surface-container-lowest": "#0b0f10",
-                    "surface-container-low": "#191c1e",
-                    "surface-container": "#1d2022",
-                    "surface-container-high": "#272a2c",
-                    "surface-container-highest": "#323537"
-                },
+                    borderRadius: {
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
 
-                borderRadius: {
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-                },
+                    spacing: {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "container-max": "1280px",
+                        "gutter": "24px"
+                    },
 
-                spacing: {
-                    "margin-desktop": "64px",
-                    "margin-mobile": "20px",
-                    "unit": "8px",
-                    "container-max": "1280px",
-                    "gutter": "24px"
-                },
+                    fontFamily: {
+                        "jakarta": ["Plus Jakarta Sans", "sans-serif"]
+                    },
 
-                fontFamily: {
-                    "jakarta": ["Plus Jakarta Sans", "sans-serif"]
-                },
+                    fontSize: {
+                        "headline-md": ["24px", {
+                            lineHeight: "32px",
+                            fontWeight: "600"
+                        }],
 
-                fontSize: {
-                    "headline-md": ["24px", {
-                        lineHeight: "32px",
-                        fontWeight: "600"
-                    }],
+                        "headline-xl": ["48px", {
+                            lineHeight: "56px",
+                            letterSpacing: "-0.02em",
+                            fontWeight: "700"
+                        }],
 
-                    "headline-xl": ["48px", {
-                        lineHeight: "56px",
-                        letterSpacing: "-0.02em",
-                        fontWeight: "700"
-                    }],
+                        "headline-lg": ["32px", {
+                            lineHeight: "40px",
+                            letterSpacing: "-0.01em",
+                            fontWeight: "700"
+                        }],
 
-                    "headline-lg": ["32px", {
-                        lineHeight: "40px",
-                        letterSpacing: "-0.01em",
-                        fontWeight: "700"
-                    }],
+                        "body-md": ["16px", {
+                            lineHeight: "24px",
+                            fontWeight: "400"
+                        }],
 
-                    "body-md": ["16px", {
-                        lineHeight: "24px",
-                        fontWeight: "400"
-                    }],
+                        "body-lg": ["18px", {
+                            lineHeight: "28px",
+                            fontWeight: "400"
+                        }],
 
-                    "body-lg": ["18px", {
-                        lineHeight: "28px",
-                        fontWeight: "400"
-                    }],
+                        "body-sm": ["14px", {
+                            lineHeight: "20px",
+                            fontWeight: "400"
+                        }],
 
-                    "body-sm": ["14px", {
-                        lineHeight: "20px",
-                        fontWeight: "400"
-                    }],
+                        "label-sm": ["12px", {
+                            lineHeight: "16px",
+                            letterSpacing: "0.05em",
+                            fontWeight: "600"
+                        }],
 
-                    "label-sm": ["12px", {
-                        lineHeight: "16px",
-                        letterSpacing: "0.05em",
-                        fontWeight: "600"
-                    }],
-
-                    "label-md": ["14px", {
-                        lineHeight: "20px",
-                        letterSpacing: "0.05em",
-                        fontWeight: "600"
-                    }]
+                        "label-md": ["14px", {
+                            lineHeight: "20px",
+                            letterSpacing: "0.05em",
+                            fontWeight: "600"
+                        }]
+                    }
                 }
             }
         }
-    }
-</script>
+    </script>
 
-<style>
+    <style>
 
-    * {
-        box-sizing: border-box;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    body {
-        margin: 0;
-        background-color: #020617;
-        color: #e0e3e5;
-        font-family: "Plus Jakarta Sans", sans-serif;
-    }
-
-    /* -----------------------------
-       Glass panels
-    ----------------------------- */
-
-    .glass-panel {
-        background: rgba(15, 23, 42, 0.62);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-
-        border: 1px solid rgba(51, 65, 85, 0.4);
-
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.05),
-            0 8px 32px rgba(0, 0, 0, 0.25);
-    }
-
-    /* -----------------------------
-       Inputs / Selects
-    ----------------------------- */
-
-    .input-glass {
-        background-color: #0f172a !important;
-        color: #e0e3e5 !important;
-
-        border: 1px solid #1e293b !important;
-
-        appearance: none;
-        -webkit-appearance: none;
-
-        transition:
-            border-color 0.25s ease,
-            box-shadow 0.25s ease,
-            background-color 0.25s ease;
-    }
-
-    .input-glass:hover {
-        border-color: #334155 !important;
-    }
-
-    .input-glass:focus {
-        background-color: #0f172a !important;
-
-        border-color: #10b981 !important;
-
-        box-shadow:
-            0 0 0 1px rgba(16, 185, 129, 0.15),
-            0 0 18px rgba(16, 185, 129, 0.12);
-
-        outline: none !important;
-    }
-
-    .input-glass::placeholder {
-        color: #64748b !important;
-        opacity: 1;
-    }
-
-    .input-glass:disabled {
-        background-color: #0b1220 !important;
-        color: #64748b !important;
-        opacity: 0.55;
-        cursor: not-allowed;
-    }
-
-    /* -----------------------------
-       CSS dropdown arrow
-    ----------------------------- */
-
-    .select-wrapper {
-        position: relative;
-    }
-
-    .select-arrow {
-        position: absolute;
-
-        right: 15px;
-        top: 50%;
-
-        width: 8px;
-        height: 8px;
-
-        border-right: 2px solid #94a3b8;
-        border-bottom: 2px solid #94a3b8;
-
-        transform: translateY(-65%) rotate(45deg);
-
-        pointer-events: none;
-
-        transition:
-            border-color 0.2s ease,
-            transform 0.2s ease;
-    }
-
-    .select-wrapper:focus-within .select-arrow {
-        border-color: #10b981;
-        transform: translateY(-35%) rotate(225deg);
-    }
-
-    /* -----------------------------
-       Primary button
-    ----------------------------- */
-
-    .btn-primary {
-        background-color: #10b981;
-        color: #020617;
-
-        transition:
-            transform 0.25s ease,
-            box-shadow 0.25s ease,
-            background-color 0.25s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #34d399;
-
-        box-shadow:
-            0 0 24px rgba(16, 185, 129, 0.35),
-            0 8px 20px rgba(0, 0, 0, 0.25);
-
-        transform: translateY(-2px);
-    }
-
-    .btn-primary:active {
-        transform: translateY(0);
-    }
-
-    .btn-primary:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    /* -----------------------------
-       Speedometer icon
-    ----------------------------- */
-
-    .speed-icon {
-        width: 17px;
-        height: 17px;
-
-        position: relative;
-        display: inline-block;
-
-        border: 2px solid #10b981;
-        border-radius: 50%;
-
-        border-bottom-color: transparent;
-
-        flex-shrink: 0;
-    }
-
-    .speed-icon::before {
-        content: "";
-
-        position: absolute;
-
-        width: 7px;
-        height: 2px;
-
-        background: #10b981;
-
-        left: 3px;
-        top: 7px;
-
-        border-radius: 2px;
-
-        transform: rotate(-45deg);
-        transform-origin: right center;
-    }
-
-    .speed-icon::after {
-        content: "";
-
-        position: absolute;
-
-        width: 3px;
-        height: 3px;
-
-        background: #10b981;
-
-        border-radius: 50%;
-
-        left: 5px;
-        top: 5px;
-    }
-
-    /* -----------------------------
-       Animations
-    ----------------------------- */
-
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(20px);
+        * {
+            box-sizing: border-box;
         }
 
-        100% {
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background-color: #020617;
+            color: #e0e3e5;
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.62);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(51, 65, 85, 0.4);
+
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .input-glass {
+            background-color: #0f172a !important;
+            color: #e0e3e5 !important;
+
+            border: 1px solid #1e293b !important;
+
+            appearance: none;
+            -webkit-appearance: none;
+
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
+        }
+
+        .input-glass:hover {
+            border-color: #334155 !important;
+        }
+
+        .input-glass:focus {
+            background-color: #0f172a !important;
+
+            border-color: #10b981 !important;
+
+            box-shadow:
+                0 0 0 1px rgba(16, 185, 129, 0.15),
+                0 0 18px rgba(16, 185, 129, 0.12);
+
+            outline: none !important;
+        }
+
+        .input-glass::placeholder {
+            color: #64748b !important;
             opacity: 1;
+        }
+
+        .input-glass:disabled {
+            background-color: #0b1220 !important;
+            color: #64748b !important;
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-arrow {
+            position: absolute;
+
+            right: 15px;
+            top: 50%;
+
+            width: 8px;
+            height: 8px;
+
+            border-right: 2px solid #94a3b8;
+            border-bottom: 2px solid #94a3b8;
+
+            transform: translateY(-65%) rotate(45deg);
+
+            pointer-events: none;
+
+            transition:
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .select-wrapper:focus-within .select-arrow {
+            border-color: #10b981;
+            transform: translateY(-35%) rotate(225deg);
+        }
+
+        .btn-primary {
+            background-color: #10b981;
+            color: #020617;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #34d399;
+
+            box-shadow:
+                0 0 24px rgba(16, 185, 129, 0.35),
+                0 8px 20px rgba(0, 0, 0, 0.25);
+
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
             transform: translateY(0);
         }
-    }
 
-    .animate-fade-in-up {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-
-    @keyframes pulseGlow {
-        0%,
-        100% {
-            opacity: 0.35;
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        50% {
-            opacity: 0.65;
-        }
-    }
+        .speed-icon {
+            width: 17px;
+            height: 17px;
 
-    .hero-glow {
-        animation: pulseGlow 5s ease-in-out infinite;
-    }
+            position: relative;
+            display: inline-block;
 
-    /* -----------------------------
-       Result animation
-    ----------------------------- */
+            border: 2px solid #10b981;
+            border-radius: 50%;
 
-    @keyframes resultAppear {
-        0% {
-            opacity: 0;
-            transform: translateY(12px) scale(0.98);
+            border-bottom-color: transparent;
+
+            flex-shrink: 0;
         }
 
-        100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+        .speed-icon::before {
+            content: "";
+
+            position: absolute;
+
+            width: 7px;
+            height: 2px;
+
+            background: #10b981;
+
+            left: 3px;
+            top: 7px;
+
+            border-radius: 2px;
+
+            transform: rotate(-45deg);
+            transform-origin: right center;
         }
-    }
 
-    .result-visible {
-        animation: resultAppear 0.45s ease-out forwards;
-    }
+        .speed-icon::after {
+            content: "";
 
-    /* -----------------------------
-       Loading spinner
-    ----------------------------- */
+            position: absolute;
 
-    .spinner {
-        width: 30px;
-        height: 30px;
+            width: 3px;
+            height: 3px;
 
-        border: 3px solid rgba(78, 222, 163, 0.2);
-        border-top-color: #4edea3;
+            background: #10b981;
 
-        border-radius: 50%;
+            border-radius: 50%;
 
-        animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
+            left: 5px;
+            top: 5px;
         }
-    }
 
-    /* -----------------------------
-       Hero image
-    ----------------------------- */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-    .hero-image {
-        width: 100%;
-        height: 100%;
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        object-fit: cover;
-        object-position: center;
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
 
-        display: block;
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                opacity: 0.35;
+            }
 
-        opacity: 0.38;
-    }
+            50% {
+                opacity: 0.65;
+            }
+        }
 
-    /* -----------------------------
-       Scrollbar
-    ----------------------------- */
+        .hero-glow {
+            animation: pulseGlow 5s ease-in-out infinite;
+        }
 
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
+        @keyframes resultAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
 
-    ::-webkit-scrollbar-track {
-        background: #020617;
-    }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-    ::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 10px;
-    }
+        .result-visible {
+            animation: resultAppear 0.45s ease-out forwards;
+        }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: #475569;
-    }
+        .spinner {
+            width: 30px;
+            height: 30px;
 
-    /* -----------------------------
-       Mobile
-    ----------------------------- */
+            border: 3px solid rgba(78, 222, 163, 0.2);
+            border-top-color: #4edea3;
 
-    @media (max-width: 768px) {
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .hero-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
             object-position: center;
+
+            display: block;
+
+            opacity: 0.38;
         }
 
-        h1 {
-            font-size: 38px !important;
-            line-height: 45px !important;
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-    }
 
-</style>
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
 
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
 
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        @media (max-width: 768px) {
+
+            .hero-image {
+                object-position: center;
+            }
+
+            h1 {
+                font-size: 38px !important;
+                line-height: 45px !important;
+            }
+        }
+
+    </style>
 </head>
 
 <body class="font-jakarta text-body-md antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-<!-- =========================================================
-     NAVBAR
-========================================================= -->
-
 <nav class="fixed top-0 w-full z-50 bg-surface/10 backdrop-blur-md border-b border-outline-variant/20 shadow-sm h-20">
 
-
-<div class="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-
-    <!-- Logo -->
-
-    <a
-        class="flex items-center gap-2 text-on-surface"
-        href="#"
-        aria-label="AutoValue Home"
-    >
-
-        <span
-            class="brand-wordmark select-none"
-            style="
-                display:inline-flex;
-                align-items:baseline;
-                font-family:'Plus Jakarta Sans',sans-serif;
-                font-weight:800;
-                letter-spacing:-0.06em;
-                line-height:1;
-            "
-        >
-
-            <span
-                style="
-                    color:#10b981;
-                    font-size:1.2em;
-                    transform:skewX(-12deg);
-                    display:inline-block;
-                "
-            >A</span>
-
-            <span>uto</span>
-
-            <span
-                style="
-                    color:#10b981;
-                    font-size:1.2em;
-                    transform:skewX(-12deg);
-                    display:inline-block;
-                    margin-left:-0.05em;
-                "
-            >V</span>
-
-            <span>alue</span>
-
-        </span>
-
-    </a>
-
-
-    <!-- Desktop navigation -->
-
-    <div class="hidden md:flex items-center gap-8">
+    <div class="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
 
         <a
-            class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors duration-300"
+            class="flex items-center gap-2 text-on-surface"
             href="#"
+            aria-label="AutoValue Home"
         >
-            Home
+
+            <span
+                class="brand-wordmark select-none"
+                style="
+                    display:inline-flex;
+                    align-items:baseline;
+                    font-family:'Plus Jakarta Sans',sans-serif;
+                    font-weight:800;
+                    letter-spacing:-0.06em;
+                    line-height:1;
+                "
+            >
+
+                <span
+                    style="
+                        color:#10b981;
+                        font-size:1.2em;
+                        transform:skewX(-12deg);
+                        display:inline-block;
+                    "
+                >A</span>
+
+                <span>uto</span>
+
+                <span
+                    style="
+                        color:#10b981;
+                        font-size:1.2em;
+                        transform:skewX(-12deg);
+                        display:inline-block;
+                        margin-left:-0.05em;
+                    "
+                >V</span>
+
+                <span>alue</span>
+
+            </span>
+
         </a>
 
-        <a
-            class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300"
-            href="#how-it-works"
-        >
-            How It Works
-        </a>
+        <div class="hidden md:flex items-center gap-8">
+
+            <a
+                class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors duration-300"
+                href="#"
+            >
+                Home
+            </a>
+
+            <a
+                class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300"
+                href="#how-it-works"
+            >
+                How It Works
+            </a>
+
+            <a
+                class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300"
+                href="#about"
+            >
+                About
+            </a>
+
+        </div>
 
         <a
-            class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300"
-            href="#about"
+            class="hidden md:inline-flex items-center justify-center px-6 py-2 rounded-lg font-label-md font-bold btn-primary transition-all duration-300"
+            href="#valuation-form"
         >
-            About
+            Get Valuation
         </a>
 
     </div>
 
-
-    <!-- CTA -->
-
-    <a
-        class="hidden md:inline-flex items-center justify-center px-6 py-2 rounded-lg font-label-md font-bold btn-primary transition-all duration-300"
-        href="#valuation-form"
-    >
-        Get Valuation
-    </a>
-
-</div>
-
-
 </nav>
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <main class="flex-grow pt-20">
-
-<!-- =========================================================
-     HERO
-========================================================= -->
 
 <section
     class="relative min-h-[65vh] flex items-center justify-center pt-12 pb-16 overflow-hidden"
 >
 
+    <div class="absolute inset-0 z-0">
 
-<!-- Background -->
-
-<div class="absolute inset-0 z-0">
-
-    <img
-        class="hero-image"
-        alt="Dark cinematic silhouette of a modern car"
-        src="https://images.openai.com/static-rsc-4/GeErUyP6i60Zxqz6cBx8BvtqlKcSd19t4aPp8ASAi2BBFlkmMPF3lPXltMOfBUnahuGPLobN-eysZeYdugoARcifCsFu49W9h9q2WOg9VxesO89C7GATBMbVDsRdxWTzl0RVZZ6XSv2NNBheLVtepNqJzWwkRadpqouyJobLUN0fOEUCfkcbTpcyjh8FcPVC?purpose=fullsize"
-    >
-
-    <div class="absolute inset-0 bg-gradient-to-b from-[#020617]/85 via-[#020617]/65 to-[#020617]"></div>
-
-    <div
-        class="hero-glow absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-emerald-500/10 rounded-full blur-[120px]"
-    ></div>
-
-</div>
-
-
-<!-- Content -->
-
-<div class="relative z-10 container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max w-full">
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center">
-
-
-        <!-- =====================================================
-             HERO CONTENT
-        ====================================================== -->
-
-        <div
-            class="opacity-0 animate-fade-in-up flex flex-col items-start"
-            style="animation-delay:0.1s;"
+        <img
+            class="hero-image"
+            alt="Dark cinematic silhouette of a modern car"
+            src="https://images.openai.com/static-rsc-4/GeErUyP6i60Zxqz6cBx8BvtqlKcSd19t4aPp8ASAi2BBFlkmMPF3lPXltMOfBUnahuGPLobN-eysZeYdugoARcifCsFu49W9h9q2WOg9VxesO89C7GATBMbVDsRdxWTzl0RVZZ6XSv2NNBheLVtepNqJzWwkRadpqouyJobLUN0fOEUCfkcbTpcyjh8FcPVC?purpose=fullsize"
         >
 
-            <!-- Badge -->
-
-            <div
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6"
-            >
-
-                <span
-                    class="speed-icon"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="font-label-sm text-primary uppercase tracking-wider">
-                    AI-Powered Valuation
-                </span>
-
-            </div>
-
-
-            <!-- Heading -->
-
-            <h1
-                class="font-bold text-4xl md:text-headline-xl text-on-surface mb-6 leading-tight"
-            >
-
-                Know What Your
-                <br>
-
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-                    Car Is Worth.
-                </span>
-
-            </h1>
-
-
-            <!-- Description -->
-
-            <p
-                class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-10"
-            >
-                Data-driven resale valuation for the Indian used-car market.
-                Leverage machine learning to get an estimated value instantly.
-            </p>
-
-
-            <!-- Stats -->
-
-            <div class="grid grid-cols-2 gap-4 w-full max-w-md">
-
-                <div class="glass-panel p-4 rounded-xl flex flex-col gap-1">
-
-                    <span class="font-headline-md text-headline-md text-primary">
-                        ML
-                    </span>
-
-                    <span class="font-label-sm text-on-surface-variant">
-                        Data-driven model
-                    </span>
-
-                </div>
-
-
-                <div class="glass-panel p-4 rounded-xl flex flex-col gap-1">
-
-                    <span class="font-headline-md text-headline-md text-primary">
-                        140K+
-                    </span>
-
-                    <span class="font-label-sm text-on-surface-variant">
-                        Vehicle records
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             VALUATION FORM
-        ====================================================== -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#020617]/85 via-[#020617]/65 to-[#020617]"></div>
 
         <div
-            class="opacity-0 animate-fade-in-up mt-12 lg:mt-0"
-            id="valuation-form"
-            style="animation-delay:0.3s;"
-        >
+            class="hero-glow absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-emerald-500/10 rounded-full blur-[120px]"
+        ></div>
+
+    </div>
+
+    <div class="relative z-10 container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center">
 
             <div
-                class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden"
+                class="opacity-0 animate-fade-in-up flex flex-col items-start"
+                style="animation-delay:0.1s;"
             >
-
-                <!-- Glow -->
 
                 <div
-                    class="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl pointer-events-none"
-                ></div>
-
-
-                <!-- Heading -->
-
-                <h2
-                    class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2 border-b border-white/5 pb-4"
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6"
                 >
 
-                    
+                    <span
+                        class="speed-icon"
+                        aria-hidden="true"
+                    ></span>
 
-                    Enter Car Details
+                    <span class="font-label-sm text-primary uppercase tracking-wider">
+                        AI-Powered Valuation
+                    </span>
 
-                </h2>
+                </div>
 
+                <h1
+                    class="font-bold text-4xl md:text-headline-xl text-on-surface mb-6 leading-tight"
+                >
+                    Know What Your
+                    <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
+                        Car Is Worth.
+                    </span>
+                </h1>
 
-                <form
-                    class="space-y-5"
-                    id="valuationForm"
+                <p
+                    class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-10"
+                >
+                    Data-driven resale valuation for the Indian used-car market.
+                    Leverage machine learning to get an estimated value instantly.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+
+                    <div class="glass-panel p-4 rounded-xl flex flex-col gap-1">
+
+                        <span class="font-headline-md text-headline-md text-primary">
+                            ML
+                        </span>
+
+                        <span class="font-label-sm text-on-surface-variant">
+                            Data-driven model
+                        </span>
+
+                    </div>
+
+                    <div class="glass-panel p-4 rounded-xl flex flex-col gap-1">
+
+                        <span class="font-headline-md text-headline-md text-primary">
+                            140K+
+                        </span>
+
+                        <span class="font-label-sm text-on-surface-variant">
+                            Vehicle records
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div
+                class="opacity-0 animate-fade-in-up mt-12 lg:mt-0"
+                id="valuation-form"
+                style="animation-delay:0.3s;"
+            >
+
+                <div
+                    class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden"
                 >
 
+                    <div
+                        class="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl pointer-events-none"
+                    ></div>
 
-                    <!-- =================================================
-                         BRAND
-                    ================================================== -->
+                    <h2
+                        class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2 border-b border-white/5 pb-4"
+                    >
+                        Enter Car Details
+                    </h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <form
+                        class="space-y-5"
+                        id="valuationForm"
+                    >
 
-                        <div class="space-y-1.5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="brand_select"
-                            >
-                                Brand
-                            </label>
+                            <div class="space-y-1.5">
 
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="brand_select"
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="brand_select"
                                 >
+                                    Brand
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Brand
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="brand_select"
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Brand
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5">
 
-
-                        <!-- MODEL -->
-
-                        <div class="space-y-1.5">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="model_select"
-                            >
-                                Model
-                            </label>
-
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="model_select"
-                                    disabled
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="model_select"
                                 >
+                                    Model
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Model
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="model_select"
+                                        disabled
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Model
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5 md:col-span-2">
 
-
-                        <!-- VARIANT -->
-
-                        <div class="space-y-1.5 md:col-span-2">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="variant_select"
-                            >
-                                Variant
-                            </label>
-
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="variant_select"
-                                    disabled
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="variant_select"
                                 >
+                                    Variant
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Variant
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="variant_select"
+                                        disabled
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Variant
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5">
 
-
-                        <!-- BODY TYPE -->
-
-                        <div class="space-y-1.5">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="body_type_select"
-                            >
-                                Body Type
-                            </label>
-
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="body_type_select"
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="body_type_select"
                                 >
+                                    Body Type
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Body Type
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="body_type_select"
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Body Type
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5">
 
-
-                        <!-- TRANSMISSION -->
-
-                        <div class="space-y-1.5">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="transmission_select"
-                            >
-                                Transmission
-                            </label>
-
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="transmission_select"
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="transmission_select"
                                 >
+                                    Transmission
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Transmission
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="transmission_select"
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Transmission
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5">
 
-
-                        <!-- FUEL TYPE -->
-
-                        <div class="space-y-1.5">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="fuel_type_select"
-                            >
-                                Fuel Type
-                            </label>
-
-                            <div class="select-wrapper">
-
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="fuel_type_select"
-                                    required
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="fuel_type_select"
                                 >
+                                    Fuel Type
+                                </label>
 
-                                    <option value="" disabled selected>
-                                        Select Fuel Type
-                                    </option>
+                                <div class="select-wrapper">
 
-                                </select>
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="fuel_type_select"
+                                        required
+                                    >
 
-                                <span class="select-arrow"></span>
+                                        <option value="" disabled selected>
+                                            Select Fuel Type
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="space-y-1.5">
 
-
-                        <!-- YEAR -->
-
-                        <div class="space-y-1.5">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="year_input"
-                            >
-                                Year of Manufacture
-                            </label>
-
-                            <input
-                                class="w-full h-11 input-glass rounded-lg px-4 font-body-sm"
-                                id="year_input"
-                                max="2026"
-                                min="1990"
-                                placeholder="e.g. 2018"
-                                type="number"
-                                required
-                            >
-
-                        </div>
-
-
-                        <!-- KILOMETERS -->
-
-                        <div class="space-y-1.5 md:col-span-2">
-
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="kilometers_input"
-                            >
-                                Kilometers Driven
-                            </label>
-
-                            <div class="relative">
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="year_input"
+                                >
+                                    Year of Manufacture
+                                </label>
 
                                 <input
-                                    class="w-full h-11 input-glass rounded-lg pl-4 pr-12 font-body-sm"
-                                    id="kilometers_input"
-                                    min="0"
-                                    placeholder="e.g. 45000"
+                                    class="w-full h-11 input-glass rounded-lg px-4 font-body-sm"
+                                    id="year_input"
+                                    max="2026"
+                                    min="1990"
+                                    placeholder="e.g. 2018"
                                     type="number"
                                     required
                                 >
 
-                                <span
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 font-label-sm text-on-surface-variant pointer-events-none"
+                            </div>
+
+                            <div class="space-y-1.5 md:col-span-2">
+
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="kilometers_input"
                                 >
-                                    km
-                                </span>
+                                    Kilometers Driven
+                                </label>
+
+                                <div class="relative">
+
+                                    <input
+                                        class="w-full h-11 input-glass rounded-lg pl-4 pr-12 font-body-sm"
+                                        id="kilometers_input"
+                                        min="0"
+                                        placeholder="e.g. 45000"
+                                        type="number"
+                                        required
+                                    >
+
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 font-label-sm text-on-surface-variant pointer-events-none"
+                                    >
+                                        km
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="space-y-1.5">
+
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="owners_select"
+                                >
+                                    No. of Owners
+                                </label>
+
+                                <div class="select-wrapper">
+
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="owners_select"
+                                        required
+                                    >
+
+                                        <option value="1">1st Owner</option>
+                                        <option value="2">2nd Owner</option>
+                                        <option value="3">3rd Owner</option>
+                                        <option value="4">4+ Owners</option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="space-y-1.5">
+
+                                <label
+                                    class="font-label-sm text-on-surface-variant"
+                                    for="accidental_select"
+                                >
+                                    Accident History
+                                </label>
+
+                                <div class="select-wrapper">
+
+                                    <select
+                                        class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
+                                        id="accidental_select"
+                                        required
+                                    >
+
+                                        <option value="" disabled selected>
+                                            Select
+                                        </option>
+
+                                    </select>
+
+                                    <span class="select-arrow"></span>
+
+                                </div>
 
                             </div>
 
                         </div>
 
+                        <button
+                            class="w-full h-12 mt-6 rounded-lg font-label-md font-bold flex items-center justify-center gap-2 btn-primary"
+                            id="predict_btn"
+                            type="submit"
+                        >
 
-                        <!-- OWNERS -->
+                            <span class="text-lg">
+                                ✦
+                            </span>
 
-                        <div class="space-y-1.5">
+                            Calculate Value
 
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="owners_select"
-                            >
-                                No. of Owners
-                            </label>
+                        </button>
 
-                            <div class="select-wrapper">
+                        <div
+                            class="hidden justify-center items-center py-5"
+                            id="loading_spinner"
+                        >
 
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="owners_select"
-                                    required
-                                >
+                            <div class="spinner"></div>
 
-                                    <option value="1">1st Owner</option>
-                                    <option value="2">2nd Owner</option>
-                                    <option value="3">3rd Owner</option>
-                                    <option value="4">4+ Owners</option>
-
-                                </select>
-
-                                <span class="select-arrow"></span>
-
-                            </div>
+                            <span class="ml-3 font-label-sm text-on-surface-variant">
+                                Analyzing market data...
+                            </span>
 
                         </div>
 
+                        <div
+                            class="hidden mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
+                            id="error_display"
+                        ></div>
 
-                        <!-- ACCIDENTAL -->
+                        <div
+                            class="hidden mt-6 p-6 rounded-xl bg-surface-container-high/50 border border-primary/20 text-center relative overflow-hidden"
+                            id="result_display"
+                        >
 
-                        <div class="space-y-1.5">
+                            <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
 
-                            <label
-                                class="font-label-sm text-on-surface-variant"
-                                for="accidental_select"
-                            >
-                                Accident History
-                            </label>
+                            <p class="font-label-sm text-on-surface-variant mb-1 uppercase tracking-widest">
+                                Estimated Market Value
+                            </p>
 
-                            <div class="select-wrapper">
+                            <h3
+                                class="text-4xl text-primary font-bold tracking-tight my-2"
+                                id="price_result"
+                            ></h3>
 
-                                <select
-                                    class="w-full h-11 input-glass rounded-lg px-4 pr-10 font-body-sm cursor-pointer"
-                                    id="accidental_select"
-                                    required
-                                >
-
-                                    <option value="" disabled selected>
-                                        Select
-                                    </option>
-
-                                </select>
-
-                                <span class="select-arrow"></span>
-
-                            </div>
+                            <p class="font-body-sm text-on-surface-variant/80">
+                                *Estimate generated by the AutoValue machine learning model.
+                            </p>
 
                         </div>
 
-                    </div>
+                    </form>
 
-
-                    <!-- =================================================
-                         PREDICT BUTTON
-                    ================================================== -->
-
-                    <button
-                        class="w-full h-12 mt-6 rounded-lg font-label-md font-bold flex items-center justify-center gap-2 btn-primary"
-                        id="predict_btn"
-                        type="submit"
-                    >
-
-                        <span class="text-lg">
-                            ✦
-                        </span>
-
-                        Calculate Value
-
-                    </button>
-
-
-                    <!-- =================================================
-                         LOADING
-                    ================================================== -->
-
-                    <div
-                        class="hidden justify-center items-center py-5"
-                        id="loading_spinner"
-                    >
-
-                        <div class="spinner"></div>
-
-                        <span class="ml-3 font-label-sm text-on-surface-variant">
-                            Analyzing market data...
-                        </span>
-
-                    </div>
-
-
-                    <!-- =================================================
-                         ERROR
-                    ================================================== -->
-
-                    <div
-                        class="hidden mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
-                        id="error_display"
-                    ></div>
-
-
-                    <!-- =================================================
-                         RESULT
-                    ================================================== -->
-
-                    <div
-                        class="hidden mt-6 p-6 rounded-xl bg-surface-container-high/50 border border-primary/20 text-center relative overflow-hidden"
-                        id="result_display"
-                    >
-
-                        <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
-
-                        <p class="font-label-sm text-on-surface-variant mb-1 uppercase tracking-widest">
-                            Estimated Market Value
-                        </p>
-
-                        <h3
-                            class="text-4xl text-primary font-bold tracking-tight my-2"
-                            id="price_result"
-                        ></h3>
-
-                        <p class="font-body-sm text-on-surface-variant/80">
-                            *Estimate generated by the AutoValue machine learning model.
-                        </p>
-
-                    </div>
-
-                </form>
+                </div>
 
             </div>
 
@@ -1112,267 +951,229 @@
 
     </div>
 
-</div>
-
-
 </section>
-
-<!-- =========================================================
-     HOW IT WORKS
-========================================================= -->
 
 <section
     class="py-24 bg-surface-container-lowest relative"
     id="how-it-works"
 >
 
+    <div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max relative z-10">
 
-<div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max relative z-10">
+        <div class="text-center mb-16">
 
-    <div class="text-center mb-16">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">
+                How AutoValue Works
+            </h2>
 
-        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">
-            How AutoValue Works
-        </h2>
-
-        <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">
-            Our machine learning model analyzes vehicle information from the
-            Indian used-car market to provide a data-driven resale estimate.
-        </p>
-
-    </div>
-
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-
-        <!-- STEP 1 -->
-
-        <div
-            class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
-        >
-
-            <div
-                class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
-            >
-                <span class="text-2xl">
-                    ①
-                </span>
-            </div>
-
-            <h3 class="font-headline-md text-on-surface mb-3">
-                1. Enter Details
-            </h3>
-
-            <p class="font-body-sm text-on-surface-variant">
-                Provide information about your vehicle including its brand,
-                model, variant, year, mileage and condition.
+            <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">
+                Our machine learning model analyzes vehicle information from the
+                Indian used-car market to provide a data-driven resale estimate.
             </p>
 
         </div>
 
-
-        <!-- STEP 2 -->
-
-        <div
-            class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             <div
-                class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
+                class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
             >
-                <span class="text-2xl">
-                    ②
-                </span>
+
+                <div
+                    class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
+                >
+                    <span class="text-2xl">
+                        ①
+                    </span>
+                </div>
+
+                <h3 class="font-headline-md text-on-surface mb-3">
+                    1. Enter Details
+                </h3>
+
+                <p class="font-body-sm text-on-surface-variant">
+                    Provide information about your vehicle including its brand,
+                    model, variant, year, mileage and condition.
+                </p>
+
             </div>
-
-            <h3 class="font-headline-md text-on-surface mb-3">
-                2. AI Analysis
-            </h3>
-
-            <p class="font-body-sm text-on-surface-variant">
-                The trained machine learning pipeline processes your vehicle
-                information and evaluates its learned pricing patterns.
-            </p>
-
-        </div>
-
-
-        <!-- STEP 3 -->
-
-        <div
-            class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
-        >
 
             <div
-                class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
+                class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
             >
-                <span class="text-2xl">
-                    ③
-                </span>
+
+                <div
+                    class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
+                >
+                    <span class="text-2xl">
+                        ②
+                    </span>
+                </div>
+
+                <h3 class="font-headline-md text-on-surface mb-3">
+                    2. AI Analysis
+                </h3>
+
+                <p class="font-body-sm text-on-surface-variant">
+                    The trained machine learning pipeline processes your vehicle
+                    information and evaluates its learned pricing patterns.
+                </p>
+
             </div>
 
-            <h3 class="font-headline-md text-on-surface mb-3">
-                3. Instant Valuation
-            </h3>
+            <div
+                class="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:border-primary/50 transition-all duration-500 hover:-translate-y-1"
+            >
 
-            <p class="font-body-sm text-on-surface-variant">
-                Receive an estimated resale value for your vehicle based on
-                the trained model.
-            </p>
+                <div
+                    class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500"
+                >
+                    <span class="text-2xl">
+                        ③
+                    </span>
+                </div>
+
+                <h3 class="font-headline-md text-on-surface mb-3">
+                    3. Instant Valuation
+                </h3>
+
+                <p class="font-body-sm text-on-surface-variant">
+                    Receive an estimated resale value for your vehicle based on
+                    the trained model.
+                </p>
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
-
 
 </section>
-
-<!-- =========================================================
-     ABOUT
-========================================================= -->
 
 <section
     class="py-24 bg-[#020617]"
     id="about"
 >
 
+    <div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max">
 
-<div class="container mx-auto px-margin-mobile md:px-margin-desktop max-w-container-max">
+        <div class="max-w-3xl mx-auto text-center">
 
-    <div class="max-w-3xl mx-auto text-center">
+            <p class="font-label-sm text-primary uppercase tracking-widest mb-4">
+                About AutoValue
+            </p>
 
-        <p class="font-label-sm text-primary uppercase tracking-widest mb-4">
-            About AutoValue
-        </p>
+            <h2 class="font-headline-lg text-on-surface mb-5">
+                A machine learning project for the Indian used-car market.
+            </h2>
 
-        <h2 class="font-headline-lg text-on-surface mb-5">
-            A machine learning project for the Indian used-car market.
-        </h2>
+            <p class="font-body-lg text-on-surface-variant">
+                AutoValue uses a trained Gradient Boosting regression model
+                together with structured vehicle data to estimate resale prices.
+                The application combines a machine learning pipeline with a
+                lightweight web interface and FastAPI backend.
+            </p>
 
-        <p class="font-body-lg text-on-surface-variant">
-            AutoValue uses a trained Gradient Boosting regression model
-            together with structured vehicle data to estimate resale prices.
-            The application combines a machine learning pipeline with a
-            lightweight web interface and FastAPI backend.
-        </p>
+        </div>
 
     </div>
-
-</div>
-
 
 </section>
 
 </main>
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
 <footer
     class="w-full bg-surface-container-lowest border-t border-outline-variant/10"
 >
 
+    <div
+        class="flex flex-col md:flex-row justify-between items-center py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-8"
+    >
 
-<div
-    class="flex flex-col md:flex-row justify-between items-center py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-8"
->
-
-    <!-- Logo -->
-
-    <div class="flex items-center gap-2 text-on-surface">
-
-        <span
-            style="
-                display:inline-flex;
-                align-items:baseline;
-                font-family:'Plus Jakarta Sans',sans-serif;
-                font-weight:800;
-                letter-spacing:-0.06em;
-                line-height:1;
-            "
-        >
+        <div class="flex items-center gap-2 text-on-surface">
 
             <span
                 style="
-                    color:#10b981;
-                    font-size:1.2em;
-                    transform:skewX(-12deg);
-                    display:inline-block;
+                    display:inline-flex;
+                    align-items:baseline;
+                    font-family:'Plus Jakarta Sans',sans-serif;
+                    font-weight:800;
+                    letter-spacing:-0.06em;
+                    line-height:1;
                 "
-            >A</span>
+            >
 
-            <span>uto</span>
+                <span
+                    style="
+                        color:#10b981;
+                        font-size:1.2em;
+                        transform:skewX(-12deg);
+                        display:inline-block;
+                    "
+                >A</span>
 
-            <span
-                style="
-                    color:#10b981;
-                    font-size:1.2em;
-                    transform:skewX(-12deg);
-                    display:inline-block;
-                    margin-left:-0.05em;
-                "
-            >V</span>
+                <span>uto</span>
 
-            <span>alue</span>
+                <span
+                    style="
+                        color:#10b981;
+                        font-size:1.2em;
+                        transform:skewX(-12deg);
+                        display:inline-block;
+                        margin-left:-0.05em;
+                    "
+                >V</span>
 
-        </span>
+                <span>alue</span>
+
+            </span>
+
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6 font-label-md">
+
+            <a
+                class="text-on-surface-variant hover:text-primary transition-colors"
+                href="#about"
+            >
+                About
+            </a>
+
+            <a
+                class="text-on-surface-variant hover:text-primary transition-colors"
+                href="https://github.com/tejassainids/AutoValue"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub Repository
+            </a>
+
+            <a
+                class="text-on-surface-variant hover:text-primary transition-colors"
+                href="#about"
+            >
+                Disclaimer
+            </a>
+
+        </div>
+
+        <div class="font-body-sm text-on-surface-variant opacity-60">
+            © 2026 AutoValue. All rights reserved.
+        </div>
 
     </div>
-
-
-    <!-- Links -->
-
-    <div class="flex flex-wrap justify-center gap-6 font-label-md">
-
-        <a
-            class="text-on-surface-variant hover:text-primary transition-colors"
-            href="#about"
-        >
-            About
-        </a>
-
-        <a
-            class="text-on-surface-variant hover:text-primary transition-colors"
-            href="#"
-        >
-            GitHub Repository
-        </a>
-
-        <a
-            class="text-on-surface-variant hover:text-primary transition-colors"
-            href="#"
-        >
-            Disclaimer
-        </a>
-
-    </div>
-
-
-    <div class="font-body-sm text-on-surface-variant opacity-60">
-        © 2026 AutoValue. All rights reserved.
-    </div>
-
-</div>
 
 </footer>
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
 
 <script>
 
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================================================
-       API
+       LIVE RENDER API
     ========================================================= */
 
-    const API_BASE = "http://127.0.0.1:8000";
+    const API_BASE = "https://autovalue-api.onrender.com";
 
 
     /* =========================================================
@@ -1466,23 +1267,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    function setSelectLoading(select, text) {
-
-        select.innerHTML = "";
-
-        const option =
-            document.createElement("option");
-
-        option.value = "";
-        option.textContent = text;
-        option.disabled = true;
-        option.selected = true;
-
-        select.appendChild(option);
-
-    }
-
-
     function showError(message) {
 
         errorDisplay.textContent = message;
@@ -1501,6 +1285,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    function showLoading(message = "Analyzing market data...") {
+
+        loadingSpinner.querySelector("span").textContent = message;
+
+        loadingSpinner.classList.remove("hidden");
+
+        loadingSpinner.classList.add("flex");
+
+    }
+
+
+    function hideLoading() {
+
+        loadingSpinner.classList.add("hidden");
+
+        loadingSpinner.classList.remove("flex");
+
+    }
+
+
     /* =========================================================
        INITIAL OPTIONS
     ========================================================= */
@@ -1508,6 +1312,8 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadInitialOptions() {
 
         try {
+
+            showLoading("Loading vehicle data...");
 
             const response =
                 await fetch(`${API_BASE}/options`);
@@ -1520,7 +1326,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
 
-            /* Brands */
+            /* -------------------------
+               Brands from API
+            ------------------------- */
 
             clearSelect(
                 brandSelect,
@@ -1529,11 +1337,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             populateSelect(
                 brandSelect,
-                data.brands
+                data.brands || []
             );
 
 
-            /* Static fields from dataset */
+            /* -------------------------
+               Dataset categories
+            ------------------------- */
+
+            clearSelect(
+                bodyTypeSelect,
+                "Select Body Type"
+            );
 
             populateSelect(
                 bodyTypeSelect,
@@ -1542,13 +1357,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Sedan",
                     "SUV",
                     "MUV",
-                    "Coupe",
-                    "Convertible",
-                    "Wagon",
-                    "Pickup Truck"
+                    "Coupe"
                 ]
             );
 
+
+            clearSelect(
+                transmissionSelect,
+                "Select Transmission"
+            );
 
             populateSelect(
                 transmissionSelect,
@@ -1558,6 +1375,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             );
 
+
+            clearSelect(
+                fuelTypeSelect,
+                "Select Fuel Type"
+            );
 
             populateSelect(
                 fuelTypeSelect,
@@ -1570,6 +1392,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             );
 
+
+            clearSelect(
+                accidentalSelect,
+                "Select"
+            );
 
             populateSelect(
                 accidentalSelect,
@@ -1586,11 +1413,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                "Options error:",
+                error
+            );
 
             showError(
-                "Unable to load vehicle options. Make sure the FastAPI server is running on port 8000."
+                "Unable to connect to the AutoValue API. Please try again in a moment."
             );
+
+        }
+
+        finally {
+
+            hideLoading();
 
         }
 
@@ -1598,7 +1434,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================================
-       BRAND CHANGE
+       BRAND → MODEL
     ========================================================= */
 
     brandSelect.addEventListener(
@@ -1631,7 +1467,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                 if (!response.ok) {
-                    throw new Error("Failed to load models.");
+                    throw new Error(
+                        "Failed to load models."
+                    );
                 }
 
                 const data =
@@ -1645,8 +1483,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 populateSelect(
                     modelSelect,
-                    data.models
+                    data.models || []
                 );
+
+                if (
+                    !data.models ||
+                    data.models.length === 0
+                ) {
+
+                    throw new Error(
+                        "No models were found for this brand."
+                    );
+
+                }
 
                 modelSelect.disabled = false;
 
@@ -1654,13 +1503,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             catch (error) {
 
-                console.error(error);
+                console.error(
+                    "Model loading error:",
+                    error
+                );
+
+                clearSelect(
+                    modelSelect,
+                    "Models unavailable"
+                );
+
+                modelSelect.disabled = true;
 
                 showError(
                     "Could not load models for this brand."
                 );
-
-                modelSelect.disabled = true;
 
             }
 
@@ -1669,7 +1526,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================================
-       MODEL CHANGE
+       MODEL → VARIANT
     ========================================================= */
 
     modelSelect.addEventListener(
@@ -1701,7 +1558,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                 if (!response.ok) {
-                    throw new Error("Failed to load variants.");
+                    throw new Error(
+                        "Failed to load variants."
+                    );
                 }
 
                 const data =
@@ -1715,8 +1574,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 populateSelect(
                     variantSelect,
-                    data.variants
+                    data.variants || []
                 );
+
+
+                if (
+                    !data.variants ||
+                    data.variants.length === 0
+                ) {
+
+                    throw new Error(
+                        "No variants were found."
+                    );
+
+                }
+
 
                 variantSelect.disabled = false;
 
@@ -1724,13 +1596,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             catch (error) {
 
-                console.error(error);
+                console.error(
+                    "Variant loading error:",
+                    error
+                );
+
+                clearSelect(
+                    variantSelect,
+                    "Variants unavailable"
+                );
+
+                variantSelect.disabled = true;
 
                 showError(
                     "Could not load variants for this model."
                 );
-
-                variantSelect.disabled = true;
 
             }
 
@@ -1752,11 +1632,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             resultDisplay.classList.add("hidden");
 
-            /* Validation */
+            resultDisplay.classList.remove(
+                "result-visible"
+            );
+
+
+            /* -------------------------
+               Validation
+            ------------------------- */
 
             if (!brandSelect.value) {
 
-                showError("Please select a brand.");
+                showError(
+                    "Please select a brand."
+                );
 
                 brandSelect.focus();
 
@@ -1767,7 +1656,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!modelSelect.value) {
 
-                showError("Please select a model.");
+                showError(
+                    "Please select a model."
+                );
 
                 modelSelect.focus();
 
@@ -1778,7 +1669,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!variantSelect.value) {
 
-                showError("Please select a variant.");
+                showError(
+                    "Please select a variant."
+                );
 
                 variantSelect.focus();
 
@@ -1789,7 +1682,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!bodyTypeSelect.value) {
 
-                showError("Please select the body type.");
+                showError(
+                    "Please select the body type."
+                );
 
                 bodyTypeSelect.focus();
 
@@ -1800,7 +1695,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!transmissionSelect.value) {
 
-                showError("Please select the transmission.");
+                showError(
+                    "Please select the transmission."
+                );
 
                 transmissionSelect.focus();
 
@@ -1811,7 +1708,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!fuelTypeSelect.value) {
 
-                showError("Please select the fuel type.");
+                showError(
+                    "Please select the fuel type."
+                );
 
                 fuelTypeSelect.focus();
 
@@ -1822,7 +1721,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!accidentalSelect.value) {
 
-                showError("Please select the accident history.");
+                showError(
+                    "Please select the accident history."
+                );
 
                 accidentalSelect.focus();
 
@@ -1832,13 +1733,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             const year =
-                parseInt(yearInput.value);
+                parseInt(
+                    yearInput.value,
+                    10
+                );
+
 
             const kilometers =
-                parseFloat(kilometersInput.value);
+                parseFloat(
+                    kilometersInput.value
+                );
 
 
-            if (!year || year < 1990 || year > 2026) {
+            if (
+                Number.isNaN(year) ||
+                year < 1990 ||
+                year > 2026
+            ) {
 
                 showError(
                     "Please enter a valid manufacture year."
@@ -1868,7 +1779,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /* =================================================
-               EXACT PAYLOAD EXPECTED BY FASTAPI
+               PAYLOAD
             ================================================= */
 
             const formData = {
@@ -1912,20 +1823,16 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            /* Loading state */
+            /* =================================================
+               LOADING STATE
+            ================================================= */
 
             predictBtn.disabled = true;
 
             predictBtn.innerHTML =
                 "Analyzing...";
 
-            loadingSpinner.classList.remove(
-                "hidden"
-            );
-
-            loadingSpinner.classList.add(
-                "flex"
-            );
+            showLoading();
 
 
             try {
@@ -1942,7 +1849,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             },
 
                             body:
-                                JSON.stringify(formData)
+                                JSON.stringify(
+                                    formData
+                                )
                         }
                     );
 
@@ -1958,12 +1867,30 @@ document.addEventListener("DOMContentLoaded", () => {
                             await response.json();
 
                         if (errorData.detail) {
-                            errorMessage =
-                                Array.isArray(errorData.detail)
-                                    ? errorData.detail
-                                        .map(error => error.msg)
-                                        .join(", ")
-                                    : errorData.detail;
+
+                            if (
+                                Array.isArray(
+                                    errorData.detail
+                                )
+                            ) {
+
+                                errorMessage =
+                                    errorData.detail
+                                        .map(
+                                            error =>
+                                                error.msg
+                                        )
+                                        .join(", ");
+
+                            }
+
+                            else {
+
+                                errorMessage =
+                                    errorData.detail;
+
+                            }
+
                         }
 
                     }
@@ -1999,7 +1926,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                /* Format INR */
+                /* =================================================
+                   FORMAT INR
+                ================================================= */
 
                 priceResult.textContent =
                     new Intl.NumberFormat(
@@ -2010,7 +1939,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             maximumFractionDigits: 0
                         }
                     ).format(
-                        result.predicted_price
+                        Number(
+                            result.predicted_price
+                        )
                     );
 
 
@@ -2023,8 +1954,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                /* Smooth scroll to result */
-
                 setTimeout(() => {
 
                     resultDisplay.scrollIntoView({
@@ -2033,7 +1962,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
 
                 }, 100);
-
 
             }
 
@@ -2053,18 +1981,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             finally {
 
-                loadingSpinner.classList.add(
-                    "hidden"
-                );
-
-                loadingSpinner.classList.remove(
-                    "flex"
-                );
+                hideLoading();
 
                 predictBtn.disabled = false;
 
                 predictBtn.innerHTML =
-                    "Calculate Value";
+                    `
+                    <span class="text-lg">✦</span>
+                    Calculate Value
+                    `;
 
             }
 
@@ -2072,6 +1997,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+    /* =========================================================
+       START APPLICATION
+    ========================================================= */
 
     loadInitialOptions();
 
