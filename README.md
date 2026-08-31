@@ -37,6 +37,28 @@ AutoValue uses a Gradient Boosting regression model to predict the resale price 
 
 The project uses a scikit-learn pipeline to combine preprocessing and model prediction into a single workflow.
 
+## Model Performance
+
+AutoValue uses a tuned Gradient Boosting model for car resale price prediction.
+
+### Test Set Results
+
+| Metric       |       Score |
+| ------------ | ----------: |
+| **MAE**      | ₹298,757.94 |
+| **RMSE**     | ₹364,899.35 |
+| **R² Score** |        0.32 |
+
+### Tuned Model Configuration
+
+* **Model:** Gradient Boosting Regressor
+* **Learning Rate:** 0.2
+* **Max Depth:** 3
+* **Number of Estimators:** 50
+
+The model achieves an **R² score of 0.32**, indicating that it explains approximately 32% of the variation in car resale prices in the held-out test set. The MAE indicates an average absolute prediction error of approximately **₹2.99 lakh**.
+
+
 ## Application
 
 The application consists of:
