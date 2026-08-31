@@ -75,9 +75,8 @@ Frontend: Vercel
 
 Backend API: Render
 
-Live Demo: https://auto-value-rho.vercel.app/
+Live Demo: https://autovalue.tejassainids.com/
 
-API: https://autovalue-api.onrender.com/
 
 ## Tech Stack
 
